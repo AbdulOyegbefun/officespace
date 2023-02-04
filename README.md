@@ -2,7 +2,7 @@
 A company that I work for is moving to a larger building. The new office is rectangular and will be subdivided into cubicles. My employees want to request particular positions for their cubicles and I want to set up a system that lets them make their requests.
 The new office space has been expressed as a coordinate system where each unit is one foot. The south-west corner of this space is assigned the coordinate (0, 0). The positive X axis is aligned with the inner edge of the building's south wall. The positive Y axis is aligned with the west wall. Employees request a position for their cubicle by giving the coordinates of the cubicle's south-west corner and the cubicle's north-east corner.
 
-#Description of Input:
+## Description of Input:
 
 The program will read input from standard input (stdin) in the following format:
 
@@ -18,7 +18,7 @@ After this is a line containing an integer n between 1 and 20 inclusive, giving 
 
 Each request should start with the name of the employee. The name is a string of 1 to 20 characters (mix of upper and lower case letters a-z, no spaces). The name is followed by four integers x1, y1, x2, y2 where (x1, y1) indicate the coordinates of the south-west corner of the desired cubicle and (x2, y2) indicate the coordinates of the north-east corner. Each set of request coordinates satisfies 0 ≤ x1 ≤ x2 ≤ w and 0 ≤ y1 ≤ y2 ≤ h.
 
-#Description of Output:
+## Description of Output:
 
 The program will print output to standard output (stdout) in the following format:
 
