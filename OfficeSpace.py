@@ -26,13 +26,22 @@ os.system('cls')
 # Output: an integer giving the area of the rectangle
 
 def area (rect):
+    '''
+    The input is a tuple of 4 integers and the output is an integer giving the area of the rectangle
+    This calculates the area of a rectangle.
+    '''
     x_distance = abs(rect[2]-rect[0])
     y_distance = abs(rect[3]-rect[1])
 
     rect_area = x_distance * y_distance
     return rect_area
 
-def dotherectanglesoverlap(rect1,rect2):
+def do_the_rectangles_overlap(rect1,rect2):
+    '''
+    The input is a rectangle which is tuple of 4 integers and 
+    the output is a boolean: True if the rectangles overlap and False if they don't.
+    This function determines if two rectangles overlap.
+    '''
     rect1_x1=rect1[0]
     rect1_y1=rect1[1]
     rect1_x2=rect1[2]
@@ -64,8 +73,13 @@ def dotherectanglesoverlap(rect1,rect2):
 # Output: a tuple of 4 integers denoting the overlapping rectangle.
 #         return (0, 0, 0, 0) if there is no overlap
 def overlap (rect1, rect2):
+    '''
+    The input is a rectangle which is tuple of 4 integers and 
+    the output is a rectangle which is tuple of 4 integers denoting the overlapping rectangle.
+    This function determines if two rectangles overlap. 
+    '''
     # assigning parts of the rectangle from the tuple to variables
-    if not dotherectanglesoverlap(rect1,rect2):
+    if not do_the_rectangles_overlap(rect1,rect2):
         return (0,0,0,0)
     rect1_x1=rect1[0]
     rect1_y1=rect1[1]
@@ -102,6 +116,52 @@ def overlap (rect1, rect2):
 
     # x0, x1, x2, x3 = min_x,min_y,max_x,max_y
     return (min_x,min_y,max_x,max_y)
+
+def bldg(rect):
+    '''
+    The input is an integer.
+    The output is a 2d list denoting the office space.
+    '''
+    column = int(rect[0])
+    row = int(rect[1])
+    #print(row)
+    #print(column)
+    #[print([0]*column) for i in range(row)]
+    return [[0]*column for i in range(row)]
+
+def allocate_space(dict_employees,bldg):
+    '''
+    The input is an empty 2d list and 
+    the output is a 2d list with the following values:
+      0 : (This value means this coordinate is not claimed by anyone(unallocated space))
+
+      The name of the employee: (This value is the guaranteed coordinate that the employee will have)
+
+      Value of 2 or greater: (The value represents the amount of people that are contesting 
+      for this particular position in the office(2d list))
+    '''
+    for key,value in dict_employees.items():
+        x1,y1,x2,y2 = value
+        #print(x1,y1,x2,y2)
+        #print(y1,y2)
+        #print(x1,x2)
+        x1 = x1 
+        y1 = y1
+        for row in range(y1,y2):
+            for column in range(x1,x2):
+              if (bldg[row][column]==0):
+                bldg[row][column]=key
+              elif (isinstance(bldg[row][column], str)):
+                bldg[row][column] = 2
+              elif (bldg[row][column] >=2):
+                bldg[row][column] +=1
+
+    #[print(i) for i in reversed(bldg)]
+    bldg_updated = [i for i in reversed(bldg)]
+
+    return bldg_updated
+
+     
 # Input: bldg is a 2-D array representing the whole office space
 # Output: a single integer denoting the area of the unallocated 
 #         space in the office
@@ -153,28 +213,29 @@ def main():
 
     number_of_people = sys.stdin.readline().strip()
     number_of_people = int(number_of_people)
+    dict_space = {}
     for i in range(number_of_people):
         employee = sys.stdin.readline().strip()
         employee = employee.split()
         name = employee[0]
         rectangle_coords = [int(i) for i in employee[1:]]
         rectangle_coords=tuple(rectangle_coords)
-        #print(name)
-        #print(rectangle_coords)
+        dict_space[name]=rectangle_coords
+    #print(dict_space)
   # run your test cases
     #rect1=(2,3,10,11)
     #rect2=(7,2,18,8)
     #print(overlap(rect1,rect2))
 
-    print (test_cases())
+    #print (test_cases())
 
 
   # print the following results after computation
 
   # compute the total office space
-    print(f'Total {total_area}')
+    #print(f'Total {total_area}')
   # compute the total unallocated space
-
+    allocate_space(dict_space,bldg(grid_size))
   # compute the total contested space
 
   # compute the uncontested space that each employee gets
