@@ -19,8 +19,8 @@
 #  Date Last Modified:02/06/2022
 
 import sys
-import os
-os.system('cls')
+#import os
+#os.system('cls')
 
 # Input: a rectangle which is a tuple of 4 integers (x1, y1, x2, y2)
 # Output: an integer giving the area of the rectangle
@@ -120,7 +120,7 @@ def overlap (rect1, rect2):
 def bldg(rect):
     '''
     The input is an integer.
-    The output is a 2d list denoting the office space.
+    The output is an empty 2d list denoting the office space.
     '''
     column = int(rect[0])
     row = int(rect[1])
@@ -150,8 +150,8 @@ def allocate_space(dict_employees,bldg):
         for row in range(y1,y2):
             for column in range(x1,x2):
               if (bldg[row][column]==0):
-                bldg[row][column]=key
-              elif (isinstance(bldg[row][column], str)):
+                bldg[row][column]=1
+              elif (bldg[row][column]==1):
                 bldg[row][column] = 2
               elif (bldg[row][column] >=2):
                 bldg[row][column] +=1
@@ -166,19 +166,45 @@ def allocate_space(dict_employees,bldg):
 # Output: a single integer denoting the area of the unallocated 
 #         space in the office
 def unallocated_space (bldg):
-  return None
+  count=0
+  for i in range(len(bldg)):
+    for j in range(len(bldg[i])):
+      if bldg[i][j]==0:
+        count+=1
+  return count
 # Input: bldg is a 2-D array representing the whole office space
 # Output: a single integer denoting the area of the contested 
 #         space in the office
 def contested_space (bldg):
-  return None
+  count=0
+  for i in range(len(bldg)):
+    for j in range(len(bldg[i])):
+        if bldg[i][j] >=2:
+          count+=1
+  return count
 # Input: bldg is a 2-D array representing the whole office space
 #        rect is a rectangle in the form of a tuple of 4 integers
 #        representing the cubicle requested by an employee
 # Output: a single integer denoting the area of the uncontested 
 #         space in the office that the employee gets
 def uncontested_space (bldg, rect):
-  return None
+  x1 = rect[0]
+  y1 = rect[1]
+  x2 = rect[2]
+  y2 = rect[3]
+  #count=0
+  #for i in range(len(bldg)):
+  #  for j in range(len(bldg[i])):
+  #    if isinstance(bldg[i][j],str):
+  #        count+=1
+  #return count
+  count = 0
+  bldg = [i for i in reversed(bldg)]
+  for i in range(y1,y2):
+    for j in range(x1,x2):
+      if bldg[i][j] == 1:
+          count+=1
+  return count
 # Input: office is a rectangle in the form of a tuple of 4 integers
 #        representing the whole office space
 #        cubicles is a list of tuples of 4 integers representing all
@@ -233,12 +259,14 @@ def main():
   # print the following results after computation
 
   # compute the total office space
-    #print(f'Total {total_area}')
+    print(f'Total {total_area}')
   # compute the total unallocated space
-    allocate_space(dict_space,bldg(grid_size))
+    bldg_filled=allocate_space(dict_space,bldg(grid_size))
+    print(f'Unallocated {unallocated_space(bldg_filled)}')
   # compute the total contested space
-
+    print(f'Contested {contested_space(bldg_filled)}')
   # compute the uncontested space that each employee gets
-
+    for key,value in dict_space.items():
+      print(f'{key} {uncontested_space(bldg_filled,value)}')
 if __name__ == "__main__":
   main()
