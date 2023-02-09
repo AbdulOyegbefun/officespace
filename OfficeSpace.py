@@ -124,9 +124,6 @@ def bldg(rect):
     '''
     column = int(rect[0])
     row = int(rect[1])
-    #print(row)
-    #print(column)
-    #[print([0]*column) for i in range(row)]
     return [[0]*column for i in range(row)]
 
 def allocate_space(dict_employees,bldg):
@@ -140,11 +137,8 @@ def allocate_space(dict_employees,bldg):
       Value of 2 or greater: (The value represents the amount of people that are contesting 
       for this particular position in the office(2d list))
     '''
-    for key,value in dict_employees.items():
+    for value in dict_employees.values():
         x1,y1,x2,y2 = value
-        #print(x1,y1,x2,y2)
-        #print(y1,y2)
-        #print(x1,x2)
         x1 = x1 
         y1 = y1
         for row in range(y1,y2):
@@ -156,7 +150,6 @@ def allocate_space(dict_employees,bldg):
               elif (bldg[row][column] >=2):
                 bldg[row][column] +=1
 
-    #[print(i) for i in reversed(bldg)]
     bldg_updated = [i for i in reversed(bldg)]
 
     return bldg_updated
@@ -192,12 +185,6 @@ def uncontested_space (bldg, rect):
   y1 = rect[1]
   x2 = rect[2]
   y2 = rect[3]
-  #count=0
-  #for i in range(len(bldg)):
-  #  for j in range(len(bldg[i])):
-  #    if isinstance(bldg[i][j],str):
-  #        count+=1
-  #return count
   count = 0
   bldg = [i for i in reversed(bldg)]
   for i in range(y1,y2):
@@ -212,7 +199,32 @@ def uncontested_space (bldg, rect):
 # Output: a 2-D list of integers representing the office building and
 #         showing how many employees want each cell in the 2-D list
 def request_space (office, cubicles):
-  return None
+
+  column = int(office[2])-int(office[0])
+  row = int(office[3])-int(office[1])
+    #print(row)
+    #print(column)
+    #[print([0]*column) for i in range(row)]
+  bldg = [[0]*column for i in range(row)]
+  for value in cubicles:
+        x1,y1,x2,y2 = value
+        #print(x1,y1,x2,y2)
+        #print(y1,y2)
+        #print(x1,x2)
+        x1 = int(x1) 
+        y1 = int(y1)
+        x2 = int(x2)
+        y2 = int(y2)
+        for row in range(y1,y2):
+            for column in range(x1,x2):
+              if (bldg[row][column]==0):
+                bldg[row][column]=1
+              elif (bldg[row][column]==1):
+                bldg[row][column] = 2
+              elif (bldg[row][column] >=2):
+                bldg[row][column] +=1
+  bldg_updated = [i for i in reversed(bldg)]
+  return bldg_updated
 # Input: no input
 # Output: a string denoting all test cases have passed
 def test_cases ():
@@ -240,19 +252,18 @@ def main():
     number_of_people = sys.stdin.readline().strip()
     number_of_people = int(number_of_people)
     dict_space = {}
+    list_of_coords= []
+
     for i in range(number_of_people):
         employee = sys.stdin.readline().strip()
         employee = employee.split()
         name = employee[0]
         rectangle_coords = [int(i) for i in employee[1:]]
         rectangle_coords=tuple(rectangle_coords)
+        list_of_coords.append(rectangle_coords)
         dict_space[name]=rectangle_coords
-    #print(dict_space)
-  # run your test cases
-    #rect1=(2,3,10,11)
-    #rect2=(7,2,18,8)
-    #print(overlap(rect1,rect2))
 
+  # run your test cases
     #print (test_cases())
 
 
@@ -268,5 +279,9 @@ def main():
   # compute the uncontested space that each employee gets
     for key,value in dict_space.items():
       print(f'{key} {uncontested_space(bldg_filled,value)}')
+    
+    #The below code is for the request_space method, you can uncomment it to see that it works
+    #grid_size_tuple = tuple([0,0]+grid_size)
+    #print(request_space(grid_size_tuple,list_of_coords))
 if __name__ == "__main__":
   main()
